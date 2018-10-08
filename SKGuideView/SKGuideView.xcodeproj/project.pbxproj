@@ -15,6 +15,7 @@
 		FE4F47C52160A9B800D1B19A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4F47C42160A9B800D1B19A /* main.m */; };
 		FE4F47CF2160A9B800D1B19A /* SKGuideViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4F47CE2160A9B800D1B19A /* SKGuideViewTests.m */; };
 		FE4F47DA2160A9B800D1B19A /* SKGuideViewUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4F47D92160A9B800D1B19A /* SKGuideViewUITests.m */; };
+		FE4F47EA2160AC1500D1B19A /* SKGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4F47E92160AC1500D1B19A /* SKGuideView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,8 @@
 		FE4F47D52160A9B800D1B19A /* SKGuideViewUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SKGuideViewUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE4F47D92160A9B800D1B19A /* SKGuideViewUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SKGuideViewUITests.m; sourceTree = "<group>"; };
 		FE4F47DB2160A9B800D1B19A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FE4F47E82160AC1500D1B19A /* SKGuideView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKGuideView.h; sourceTree = "<group>"; };
+		FE4F47E92160AC1500D1B19A /* SKGuideView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SKGuideView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +104,7 @@
 		FE4F47B42160A9B600D1B19A /* SKGuideView */ = {
 			isa = PBXGroup;
 			children = (
+				FE4F47E72160ABFE00D1B19A /* GuideView */,
 				FE4F47B52160A9B600D1B19A /* AppDelegate.h */,
 				FE4F47B62160A9B600D1B19A /* AppDelegate.m */,
 				FE4F47B82160A9B600D1B19A /* ViewController.h */,
@@ -130,6 +134,15 @@
 				FE4F47DB2160A9B800D1B19A /* Info.plist */,
 			);
 			path = SKGuideViewUITests;
+			sourceTree = "<group>";
+		};
+		FE4F47E72160ABFE00D1B19A /* GuideView */ = {
+			isa = PBXGroup;
+			children = (
+				FE4F47E82160AC1500D1B19A /* SKGuideView.h */,
+				FE4F47E92160AC1500D1B19A /* SKGuideView.m */,
+			);
+			path = GuideView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,6 +278,7 @@
 				FE4F47BA2160A9B600D1B19A /* ViewController.m in Sources */,
 				FE4F47C52160A9B800D1B19A /* main.m in Sources */,
 				FE4F47B72160A9B600D1B19A /* AppDelegate.m in Sources */,
+				FE4F47EA2160AC1500D1B19A /* SKGuideView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
