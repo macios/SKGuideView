@@ -16,6 +16,7 @@
 		FE4F47CF2160A9B800D1B19A /* SKGuideViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4F47CE2160A9B800D1B19A /* SKGuideViewTests.m */; };
 		FE4F47DA2160A9B800D1B19A /* SKGuideViewUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4F47D92160A9B800D1B19A /* SKGuideViewUITests.m */; };
 		FE4F47EA2160AC1500D1B19A /* SKGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4F47E92160AC1500D1B19A /* SKGuideView.m */; };
+		FE854106216C835A004928AF /* sk_close.png in Resources */ = {isa = PBXBuildFile; fileRef = FE854105216C835A004928AF /* sk_close.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		FE4F47DB2160A9B800D1B19A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FE4F47E82160AC1500D1B19A /* SKGuideView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SKGuideView.h; sourceTree = "<group>"; };
 		FE4F47E92160AC1500D1B19A /* SKGuideView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SKGuideView.m; sourceTree = "<group>"; };
+		FE854105216C835A004928AF /* sk_close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sk_close.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +141,7 @@
 		FE4F47E72160ABFE00D1B19A /* GuideView */ = {
 			isa = PBXGroup;
 			children = (
+				FE854105216C835A004928AF /* sk_close.png */,
 				FE4F47E82160AC1500D1B19A /* SKGuideView.h */,
 				FE4F47E92160AC1500D1B19A /* SKGuideView.m */,
 			);
@@ -250,6 +253,7 @@
 			files = (
 				FE4F47C22160A9B800D1B19A /* LaunchScreen.storyboard in Resources */,
 				FE4F47BF2160A9B800D1B19A /* Assets.xcassets in Resources */,
+				FE854106216C835A004928AF /* sk_close.png in Resources */,
 				FE4F47BD2160A9B600D1B19A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -8,8 +8,10 @@
 
 #import "SKGuideView.h"
 
-#define TextSpace 3.
-#define ShapeSpace 10.
+#define SK_TextSpace 5.
+#define SK_ShapeSpace 10.
+
+#define SK_Height_Statusbar  [[UIApplication sharedApplication] statusBarFrame].size.height  //状态栏高
 
 @interface SKGuideView()
 
@@ -36,19 +38,45 @@
     UIWindow *screenWindow = [UIApplication sharedApplication].keyWindow;
     self.frame = CGRectMake(0, 0, screenWindow.bounds.size.width, screenWindow.bounds.size.height);
     [screenWindow addSubview:self];
-    
+
     self.backgroundColor = [UIColor clearColor];
     UITapGestureRecognizer *ges = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapClick)];
     [self addGestureRecognizer:ges];
+    
+    UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width - 15 - 44, SK_Height_Statusbar, 44, 44)];
+    [btn setImage:[UIImage imageNamed:@"sk_close.png"] forState:UIControlStateNormal];
+    btn.layer.cornerRadius = 22.f;
+    btn.clipsToBounds = YES;
+    btn.layer.borderColor = [UIColor whiteColor].CGColor;
+    btn.layer.borderWidth = .5;
+    [btn addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:btn];
+    
+    CGFloat wide = [self textWideWithViewHeight:40 andStr:@"下一步" font:[UIFont boldSystemFontOfSize:20]] + 10;
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width - 15 - wide, [UIScreen mainScreen].bounds.size.height - 40 - (SK_Height_Statusbar > 20 ? 30 : 15), wide, 40)];
+    label.textColor = [UIColor whiteColor];
+    label.text = @"下一步";
+    label.font = [UIFont boldSystemFontOfSize:20];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.layer.cornerRadius = 4.f;
+    label.clipsToBounds = YES;
+    label.layer.borderColor = [UIColor whiteColor].CGColor;
+    label.layer.borderWidth = .5;
+    [self addSubview:label];
 }
+
 
 -(void)tapClick{
     if (_currentIndex == _viewArr.count) {
-        _currentIndex = 0;
         [self removeFromSuperview];
         return;
     }
     [self setNeedsDisplay];
+}
+
+-(void)dismiss{
+    _currentIndex = 0;
+    [self removeFromSuperview];
 }
 
 -(void)setDataArr:(NSArray *)dataArr{
@@ -80,8 +108,8 @@
     CGFloat rectHeight = 16;
     CGRect drawRect = CGRectZero;
     if (quadrant == 1) {
-        rectMinY = minY - rectHeight - ShapeSpace;
-        rectMinX = centerX + ShapeSpace - rectWide/2.;
+        rectMinY = minY - rectHeight - SK_ShapeSpace;
+        rectMinX = centerX + SK_ShapeSpace - rectWide/2.;
         drawRect = CGRectMake(rectMinX, rectMinY, rectWide, rectHeight);
         
         //绘制第一个椭圆
@@ -92,28 +120,29 @@
         CGContextFillPath(context);
         
         //绘制第二个椭圆
-        drawRect = CGRectMake(CGRectGetMaxX(drawRect) + ShapeSpace, CGRectGetMinY(drawRect) - 1.5 * rectHeight - ShapeSpace, 1.5 * rectWide, 1.5 * rectHeight);
+        drawRect = CGRectMake(CGRectGetMaxX(drawRect) + SK_ShapeSpace, CGRectGetMinY(drawRect) - 1.5 * rectHeight - SK_ShapeSpace, 1.5 * rectWide, 1.5 * rectHeight);
         oval= [UIBezierPath bezierPathWithOvalInRect:drawRect];
         CGContextAddPath(context, oval.CGPath);
         [[UIColor whiteColor] set];
         CGContextFillPath(context);
         
         //绘制文本框
-        rectMinX = CGRectGetMaxX(drawRect) + ShapeSpace;
-        rectWide = [self textWideWithViewHeight:20 andStr:text] + TextSpace * 2;
-        if (rectWide > (self.frame.size.width - CGRectGetMaxX(drawRect) - ShapeSpace - 15)) {
-            rectWide = self.frame.size.width - CGRectGetMaxX(drawRect) - ShapeSpace - 15;
+        rectMinX = CGRectGetMaxX(drawRect) + SK_ShapeSpace;
+        rectWide = [self textWideWithViewHeight:20 andStr:text font:self.font] + SK_TextSpace * 2;
+        if (rectWide > (self.frame.size.width - CGRectGetMaxX(drawRect) - SK_ShapeSpace - 15)) {
+            rectWide = self.frame.size.width - CGRectGetMaxX(drawRect) - SK_ShapeSpace - 15;
         }
-        rectHeight = [self textHeightWithViewWidth:rectWide andStr:text] + TextSpace * 2;
-        rectMinY = CGRectGetMinY(drawRect) - rectHeight - ShapeSpace;
+        
+        rectHeight = [self textHeightWithViewWidth:rectWide andStr:text] + SK_TextSpace * 2;
+        rectMinY = CGRectGetMinY(drawRect) - rectHeight - SK_ShapeSpace;
         drawRect = CGRectMake(rectMinX, rectMinY, rectWide, rectHeight);
-        UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:drawRect cornerRadius:TextSpace];
+        UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:drawRect cornerRadius:SK_TextSpace];
         CGContextAddPath(context, bezierPath.CGPath);
         [[UIColor whiteColor] set];
         CGContextFillPath(context);
     }else if (quadrant == 2){
-        rectMinY = maxY + ShapeSpace;
-        rectMinX = centerX + ShapeSpace - rectWide/2.;
+        rectMinY = maxY + SK_ShapeSpace;
+        rectMinX = centerX + SK_ShapeSpace - rectWide/2.;
         drawRect = CGRectMake(rectMinX, rectMinY, rectWide, rectHeight);
         
         //绘制第一个椭圆
@@ -124,28 +153,28 @@
         CGContextFillPath(context);
         
         //绘制第二个椭圆
-        drawRect = CGRectMake(CGRectGetMaxX(drawRect) + ShapeSpace, CGRectGetMaxY(drawRect) + ShapeSpace, 1.5 * rectWide, 1.5 * rectHeight);
+        drawRect = CGRectMake(CGRectGetMaxX(drawRect) + SK_ShapeSpace, CGRectGetMaxY(drawRect) + SK_ShapeSpace, 1.5 * rectWide, 1.5 * rectHeight);
         oval= [UIBezierPath bezierPathWithOvalInRect:drawRect];
         CGContextAddPath(context, oval.CGPath);
         [[UIColor whiteColor] set];
         CGContextFillPath(context);
         
         //绘制文本框
-        rectMinX = CGRectGetMaxX(drawRect) + ShapeSpace;
-        rectWide = [self textWideWithViewHeight:20 andStr:text] + TextSpace * 2;
-        if (rectWide > (self.frame.size.width - CGRectGetMaxX(drawRect) - ShapeSpace - 15)) {
-            rectWide = self.frame.size.width - CGRectGetMaxX(drawRect) - ShapeSpace - 15;
+        rectMinX = CGRectGetMaxX(drawRect) + SK_ShapeSpace;
+        rectWide = [self textWideWithViewHeight:20 andStr:text font:self.font] + SK_TextSpace * 2;
+        if (rectWide > (self.frame.size.width - CGRectGetMaxX(drawRect) - SK_ShapeSpace - 15)) {
+            rectWide = self.frame.size.width - CGRectGetMaxX(drawRect) - SK_ShapeSpace - 15;
         }
-        rectHeight = [self textHeightWithViewWidth:rectWide andStr:text] + TextSpace * 2;
-        rectMinY = CGRectGetMaxY(drawRect)  + ShapeSpace;
+        rectHeight = [self textHeightWithViewWidth:rectWide andStr:text] + SK_TextSpace * 2;
+        rectMinY = CGRectGetMaxY(drawRect)  + SK_ShapeSpace;
         drawRect = CGRectMake(rectMinX, rectMinY, rectWide, rectHeight);
-        UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:drawRect cornerRadius:TextSpace];
+        UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:drawRect cornerRadius:SK_TextSpace];
         CGContextAddPath(context, bezierPath.CGPath);
         [[UIColor whiteColor] set];
         CGContextFillPath(context);
     }else if (quadrant == 3){
-        rectMinY = maxY + ShapeSpace;
-        rectMinX = centerX - ShapeSpace - rectWide/2.;
+        rectMinY = maxY + SK_ShapeSpace;
+        rectMinX = centerX - SK_ShapeSpace - rectWide/2.;
         drawRect = CGRectMake(rectMinX, rectMinY, rectWide, rectHeight);
         
         //绘制第一个椭圆
@@ -156,7 +185,7 @@
         CGContextFillPath(context);
         
         //绘制第二个椭圆
-        drawRect = CGRectMake(CGRectGetMinX(drawRect) - ShapeSpace - 1.5 * rectWide, CGRectGetMaxY(drawRect) + ShapeSpace, 1.5 * rectWide, 1.5 * rectHeight);
+        drawRect = CGRectMake(CGRectGetMinX(drawRect) - SK_ShapeSpace - 1.5 * rectWide, CGRectGetMaxY(drawRect) + SK_ShapeSpace, 1.5 * rectWide, 1.5 * rectHeight);
         oval= [UIBezierPath bezierPathWithOvalInRect:drawRect];
         CGContextAddPath(context, oval.CGPath);
         [[UIColor whiteColor] set];
@@ -164,21 +193,21 @@
         
         //绘制文本框
         
-        rectWide = [self textWideWithViewHeight:20 andStr:text] + TextSpace * 2;
-        if (rectWide > (CGRectGetMinX(drawRect) - ShapeSpace - 15)) {
-            rectWide = CGRectGetMinX(drawRect) - ShapeSpace - 15;
+        rectWide = [self textWideWithViewHeight:20 andStr:text font:self.font] + SK_TextSpace * 2;
+        if (rectWide > (CGRectGetMinX(drawRect) - SK_ShapeSpace - 15)) {
+            rectWide = CGRectGetMinX(drawRect) - SK_ShapeSpace - 15;
         }
-        rectMinX = CGRectGetMinX(drawRect) - rectWide -ShapeSpace;
-        rectHeight = [self textHeightWithViewWidth:rectWide andStr:text] + TextSpace * 2;
-        rectMinY = CGRectGetMaxY(drawRect)  + ShapeSpace;
+        rectMinX = CGRectGetMinX(drawRect) - rectWide -SK_ShapeSpace;
+        rectHeight = [self textHeightWithViewWidth:rectWide andStr:text] + SK_TextSpace * 2;
+        rectMinY = CGRectGetMaxY(drawRect)  + SK_ShapeSpace;
         drawRect = CGRectMake(rectMinX, rectMinY, rectWide, rectHeight);
-        UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:drawRect cornerRadius:TextSpace];
+        UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:drawRect cornerRadius:SK_TextSpace];
         CGContextAddPath(context, bezierPath.CGPath);
         [[UIColor whiteColor] set];
         CGContextFillPath(context);
     }else{
-        rectMinY = minY - rectWide - ShapeSpace;
-        rectMinX = centerX - ShapeSpace - rectWide/2.;
+        rectMinY = minY - rectWide - SK_ShapeSpace;
+        rectMinX = centerX - SK_ShapeSpace - rectWide/2.;
         drawRect = CGRectMake(rectMinX, rectMinY, rectWide, rectHeight);
         
         //绘制第一个椭圆
@@ -189,28 +218,29 @@
         CGContextFillPath(context);
         
         //绘制第二个椭圆
-        drawRect = CGRectMake(CGRectGetMinX(drawRect) - ShapeSpace - 1.5 * rectWide, CGRectGetMinY(drawRect) - 1.5 * rectHeight - ShapeSpace, 1.5 * rectWide, 1.5 * rectHeight);
+        drawRect = CGRectMake(CGRectGetMinX(drawRect) - SK_ShapeSpace - 1.5 * rectWide, CGRectGetMinY(drawRect) - 1.5 * rectHeight - SK_ShapeSpace, 1.5 * rectWide, 1.5 * rectHeight);
         oval= [UIBezierPath bezierPathWithOvalInRect:drawRect];
         CGContextAddPath(context, oval.CGPath);
         [[UIColor whiteColor] set];
         CGContextFillPath(context);
         
         //绘制文本框
-        rectWide = [self textWideWithViewHeight:20 andStr:text] + TextSpace * 2;
-        if (rectWide > (CGRectGetMinX(drawRect) - ShapeSpace - 15)) {
-            rectWide = CGRectGetMinX(drawRect) - ShapeSpace - 15;
+        rectWide = [self textWideWithViewHeight:20 andStr:text font:self.font] + SK_TextSpace * 2;
+        if (rectWide > (CGRectGetMinX(drawRect) - SK_ShapeSpace - 15)) {
+            rectWide = CGRectGetMinX(drawRect) - SK_ShapeSpace - 15;
         }
-        rectMinX = CGRectGetMinX(drawRect) - rectWide -ShapeSpace;
-        rectHeight = [self textHeightWithViewWidth:rectWide andStr:text] + TextSpace * 2;
-        rectMinY = CGRectGetMinY(drawRect) - rectHeight - ShapeSpace;
+        rectMinX = CGRectGetMinX(drawRect) - rectWide -SK_ShapeSpace;
+        rectHeight = [self textHeightWithViewWidth:rectWide andStr:text] + SK_TextSpace * 2;
+        rectMinY = CGRectGetMinY(drawRect) - rectHeight - SK_ShapeSpace;
         drawRect = CGRectMake(rectMinX, rectMinY, rectWide, rectHeight);
-        UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:drawRect cornerRadius:TextSpace];
+        UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:drawRect cornerRadius:SK_TextSpace];
         CGContextAddPath(context, bezierPath.CGPath);
         [[UIColor whiteColor] set];
         CGContextFillPath(context);
     }
     //绘制文本
-    drawRect = CGRectMake(CGRectGetMinX(drawRect) + TextSpace, CGRectGetMinY(drawRect) + TextSpace, CGRectGetWidth(drawRect) - TextSpace * 2, CGRectGetHeight(drawRect) - TextSpace * 2);
+    
+    drawRect = CGRectMake(CGRectGetMinX(drawRect) + SK_TextSpace, CGRectGetMinY(drawRect) + SK_TextSpace, CGRectGetWidth(drawRect) - SK_TextSpace * 2, CGRectGetHeight(drawRect) - SK_TextSpace * 2);
     [text drawInRect:drawRect withAttributes:@{NSFontAttributeName : self.font}];
 }
 
@@ -272,8 +302,8 @@
 }
 
 // 计算文字的宽度 (高固定)
-- (CGFloat)textWideWithViewHeight:(CGFloat)viewHeight andStr:(NSString *)str{
-    if (!self.font) return CGSizeZero.width;
+- (CGFloat)textWideWithViewHeight:(CGFloat)viewHeight andStr:(NSString *)str font:(UIFont *)font{
+    if (!font) return CGSizeZero.width;
     
     if (str == nil) return CGSizeZero.width;
     
@@ -283,10 +313,10 @@
     CGSize txtSize;
     if ([[[UIDevice currentDevice] systemVersion] compare:@"7.0"] != NSOrderedAscending) {
         NSStringDrawingOptions options = NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading;
-        CGRect txtRT = [str boundingRectWithSize:size options:options attributes:@{NSFontAttributeName:self.font} context:nil];
+        CGRect txtRT = [str boundingRectWithSize:size options:options attributes:@{NSFontAttributeName:font} context:nil];
         txtSize = txtRT.size;
     } else {
-        txtSize = [str sizeWithFont:self.font constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+        txtSize = [str sizeWithFont:font constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
     }
     return txtSize.width;
 }
