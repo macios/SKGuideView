@@ -58,12 +58,6 @@
     [self tapClick];
 }
 
-//-(void)setDataArr:(NSArray<UIView *> *)viewArr{
-//    _viewArr = viewArr;
-//    [self tapClick];
-//
-//}
-
 -(void)drawRect:(CGRect)rect{
     UIView *view = [_viewArr objectAtIndex:_currentIndex];
     _currentRect = [[UIApplication sharedApplication].keyWindow convertRect:view.frame fromView:view.superview];
@@ -77,10 +71,7 @@
     int quadrant = [self quadrant];
     NSLog(@"%d",quadrant);
     CGFloat centerX = CGRectGetMidX(_currentRect);
-    CGFloat centerY = CGRectGetMidY(_currentRect);
-    CGFloat minX = CGRectGetMinX(_currentRect);
     CGFloat minY = CGRectGetMinY(_currentRect);
-    CGFloat maxX = CGRectGetMaxX(_currentRect);
     CGFloat maxY = CGRectGetMaxY(_currentRect);
     
     CGFloat rectMinX = 0;
@@ -224,15 +215,13 @@
 }
 
 -(int)quadrant{
-//    CGFloat centerX = CGRectGetMidX(_currentRect);
-//    CGFloat centerY = CGRectGetMidY(_currentRect);
     float topDistance = CGRectGetMinY(_currentRect);
     float leftDistance = CGRectGetMinX(_currentRect);
     float botDistance = CGRectGetHeight(self.frame) - CGRectGetMaxY(_currentRect);
     float rightDistance = CGRectGetWidth(self.frame) - CGRectGetMaxX(_currentRect);
     
     NSArray<NSNumber *> *arr = @[@(topDistance),@(leftDistance),@(botDistance),@(rightDistance)];
-    NSLog(@"%@",arr);
+    
     arr = [arr sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
         if ([obj1 integerValue] > [obj2 integerValue]) {
             return NSOrderedDescending;
@@ -241,7 +230,7 @@
         }
         return NSOrderedSame;
     }];
-    NSLog(@"%@",arr);
+    
     if (([arr.firstObject floatValue] == botDistance && [arr[1] floatValue] == leftDistance) || ([arr.firstObject floatValue] == leftDistance && [arr[1] floatValue] == botDistance)) {
         return 1;
     }else if (([arr.firstObject floatValue] == topDistance && [arr[1] floatValue] == leftDistance) || ([arr.firstObject floatValue] == leftDistance && [arr[1] floatValue] == topDistance)){
