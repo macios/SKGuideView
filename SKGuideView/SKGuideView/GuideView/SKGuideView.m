@@ -13,10 +13,17 @@
 
 #define SK_Height_Statusbar  [[UIApplication sharedApplication] statusBarFrame].size.height  //状态栏高
 
+#define SK_ArgumentToString(macro) #macro
+#define SK_ClangWarningConcat(warning_name) SK_ArgumentToString(clang diagnostic ignored warning_name)
+#define SK_WarnDeprecatedStart _Pragma("clang diagnostic push") _Pragma(SK_ClangWarningConcat("-Wdeprecated-declarations"))
+#define SK_WarnDeprecatedEnd _Pragma("clang diagnostic pop")
+
 @interface SKGuideView()
 
 @property(nonatomic,assign)int currentIndex;
 @property(nonatomic,assign)CGRect currentRect;
+@property(nonatomic,strong)NSArray<UIView *> *viewArr;
+@property(nonatomic,strong)NSArray<NSString *> *textArr;
 
 @end
 
@@ -192,7 +199,6 @@
         CGContextFillPath(context);
         
         //绘制文本框
-        
         rectWide = [self textWideWithViewHeight:20 andStr:text font:self.font] + SK_TextSpace * 2;
         if (rectWide > (CGRectGetMinX(drawRect) - SK_ShapeSpace - 15)) {
             rectWide = CGRectGetMinX(drawRect) - SK_ShapeSpace - 15;
@@ -239,11 +245,11 @@
         CGContextFillPath(context);
     }
     //绘制文本
-    
     drawRect = CGRectMake(CGRectGetMinX(drawRect) + SK_TextSpace, CGRectGetMinY(drawRect) + SK_TextSpace, CGRectGetWidth(drawRect) - SK_TextSpace * 2, CGRectGetHeight(drawRect) - SK_TextSpace * 2);
     [text drawInRect:drawRect withAttributes:@{NSFontAttributeName : self.font}];
 }
 
+//存在相对视图的第几象限绘制
 -(int)quadrant{
     float topDistance = CGRectGetMinY(_currentRect);
     float leftDistance = CGRectGetMinX(_currentRect);
@@ -316,7 +322,9 @@
         CGRect txtRT = [str boundingRectWithSize:size options:options attributes:@{NSFontAttributeName:font} context:nil];
         txtSize = txtRT.size;
     } else {
+        SK_WarnDeprecatedStart
         txtSize = [str sizeWithFont:font constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+        SK_WarnDeprecatedEnd
     }
     return txtSize.width;
 }
@@ -334,7 +342,9 @@
         CGRect txtRT = [str boundingRectWithSize:size options:options attributes:@{NSFontAttributeName:self.font} context:nil];
         txtSize = txtRT.size;
     } else {
+        SK_WarnDeprecatedStart
         txtSize = [str sizeWithFont:self.font constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+        SK_WarnDeprecatedEnd
     }
     return txtSize.height;
 }

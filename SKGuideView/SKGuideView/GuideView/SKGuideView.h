@@ -10,8 +10,7 @@
 
 @interface SKGuideView : UIView
 
-@property(nonatomic,strong)NSArray<UIView *> *viewArr;
-@property(nonatomic,strong)NSArray<NSString *> *textArr;
+
 @property(nonatomic,strong)NSArray *dataArr;
 @property(nonatomic,strong)UIFont *font;
 
