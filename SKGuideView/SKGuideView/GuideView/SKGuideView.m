@@ -45,7 +45,7 @@
     UIWindow *screenWindow = [UIApplication sharedApplication].keyWindow;
     self.frame = CGRectMake(0, 0, screenWindow.bounds.size.width, screenWindow.bounds.size.height);
     [screenWindow addSubview:self];
-
+    self.font = [UIFont systemFontOfSize:16];
     self.backgroundColor = [UIColor clearColor];
     UITapGestureRecognizer *ges = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapClick)];
     [self addGestureRecognizer:ges];
