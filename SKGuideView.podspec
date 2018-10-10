@@ -8,6 +8,6 @@ s.license = 'MIT'
 s.authors = { "SK" => "nil.com" }
 s.source = { :git => "https://github.com/macios/SKGuideView.git", :tag => "1.0" }
 s.frameworks = 'UIKit'
-s.source_files = 'SKGuideView/**/GuideView/*.{h,m}'
+s.source_files = 'SKGuideView/**/GuideView/*.{h,m,png}'
 s.requires_arc = true
 end
