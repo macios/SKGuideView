@@ -6,7 +6,7 @@ s.summary = "Automatic-Guidance"
 s.homepage = "https://github.com/macios/SKGuideView"
 s.license = 'MIT'
 s.authors = { "SK" => "nil.com" }
-s.source = { :git => "https://github.com/macios/SKGuideView.git", :tag => "1.0" }
+s.source = { :git => "https://github.com/macios/SKGuideView.git", :tag => "1.1" }
 s.frameworks = 'UIKit'
 s.source_files = 'SKGuideView/**/GuideView/*.{h,m,png}'
 s.resources = 'SKGuideView/**/GuideView/*.png'
