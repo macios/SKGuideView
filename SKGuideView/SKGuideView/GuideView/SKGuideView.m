@@ -43,7 +43,7 @@
 
 -(void)defaultConfig{
     UIWindow *screenWindow = [UIApplication sharedApplication].keyWindow;
-    self.frame = CGRectMake(0, 0, screenWindow.bounds.size.width, screenWindow.bounds.size.height);
+    self.frame = screenWindow.bounds;
     [screenWindow addSubview:self];
     self.font = [UIFont systemFontOfSize:16];
     self.backgroundColor = [UIColor clearColor];
@@ -90,6 +90,7 @@
     _viewArr = dataArr.firstObject;
     _textArr = dataArr.lastObject;
     _dataArr = dataArr;
+    [[UIApplication sharedApplication].keyWindow bringSubviewToFront:self];
     [self tapClick];
 }
 
