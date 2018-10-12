@@ -8,11 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum : NSUInteger {
+    SKGuideViewShapeTypeOval,
+    SKGuideViewShapeTypeImaginary ,
+} SKGuideViewShapeType;
+
 @interface SKGuideView : UIView
 
-
+@property(nonatomic,assign)SKGuideViewShapeType shapeType;
 @property(nonatomic,strong)NSArray *dataArr;
 @property(nonatomic,strong)UIFont *font;
+@property(nonatomic,assign)CGFloat shapeAlpha;
 
 +(instancetype)share;
 
