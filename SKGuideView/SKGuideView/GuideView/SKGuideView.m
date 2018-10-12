@@ -176,7 +176,6 @@
 -(void)drawBubble{
     NSString *text = _textArr[_currentIndex];
     int quadrant = [self quadrant];
-    NSLog(@"%d",quadrant);
     CGFloat centerX = CGRectGetMidX(_currentRect);
     CGFloat minY = CGRectGetMinY(_currentRect);
     CGFloat maxY = CGRectGetMaxY(_currentRect);
@@ -231,7 +230,6 @@
         sPoints[1] = triangleTwo;//坐标2
         sPoints[2] = triangleThree;//坐标3
         
-//        _downLabel.frame = CGRectMake(CGRectGetMaxX(drawRect) - CGRectGetWidth(_downLabel.frame), CGRectGetMaxY(drawRect) + 20, CGRectGetWidth(_downLabel.frame), CGRectGetHeight(_downLabel.frame));
     }else if (quadrant == 2){
         rectMinY = maxY + SK_ShapeSpace;
         rectMinX = centerX + SK_ShapeSpace - rectWide/2.;
