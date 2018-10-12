@@ -58,10 +58,6 @@
     
     UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width - 15 - 44, SK_Height_Statusbar, 44, 44)];
     [btn setImage:[UIImage imageNamed:@"sk_close.png"] forState:UIControlStateNormal];
-    btn.layer.cornerRadius = 22.f;
-    btn.clipsToBounds = YES;
-    btn.layer.borderColor = [UIColor whiteColor].CGColor;
-    btn.layer.borderWidth = .5;
     [btn addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:btn];
     
@@ -76,6 +72,7 @@
     _downLabel.layer.borderColor = [UIColor whiteColor].CGColor;
     _downLabel.layer.borderWidth = .5;
     [self addSubview:_downLabel];
+    _downLabel.hidden = YES;
 }
 
 
@@ -90,6 +87,22 @@
 -(void)dismiss{
     _currentIndex = 0;
     [self removeFromSuperview];
+}
+
+-(void)setShapeType:(SKGuideViewShapeType)shapeType{
+    _shapeType = shapeType;
+    switch (shapeType) {
+        case SKGuideViewShapeTypeOval:
+            _downLabel.hidden = NO;
+            break;
+            
+        case SKGuideViewShapeTypeImaginary:
+            _downLabel.hidden = YES;
+            break;
+            
+        default:
+            break;
+    }
 }
 
 -(void)setDataArr:(NSArray *)dataArr{
@@ -163,13 +176,6 @@
         //设置颜色
         CGContextSetRGBStrokeColor(context, 1.0, 1.0, 1.0, 1.0);
         CGContextAddPath(context, showPath.CGPath);
-        //连接上面定义的坐标点
-        //设置虚线排列的宽度间隔:下面的arr中的数字表示先绘制3个点再绘制1个点
-        CGFloat arr[] = {4, 6};
-        //下面最后一个参数“2”代表排列的个数。
-        CGContextSetLineDash(context, 1, arr, 2);
-        //画线
-        CGContextDrawPath(context, kCGPathStroke);
     }
 }
 
@@ -191,6 +197,7 @@
     CGPoint onePoint = CGPointZero;
     CGPoint twoPoint = CGPointZero;
     CGPoint sPoints[3];//坐标点
+    CGFloat arr[] = {4, 6};
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     NSMutableParagraphStyle* paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
@@ -216,7 +223,7 @@
             rectWide = self.frame.size.width - CGRectGetMaxX(drawRect) - SK_ShapeSpace - 15;
         }
         
-        rectHeight = [self textHeightWithViewWidth:rectWide andStr:text] + SK_TextSpace * 2;
+        rectHeight = [self textHeightWithViewWidth:rectWide andStr:text font:self.font] + SK_TextSpace * 2;
         rectMinY = CGRectGetMinY(drawRect) - rectHeight - SK_ShapeSpace;
         drawRect = CGRectMake(rectMinX, rectMinY, rectWide, rectHeight);
         
@@ -229,7 +236,6 @@
         sPoints[0] = triangleOne;//坐标1
         sPoints[1] = triangleTwo;//坐标2
         sPoints[2] = triangleThree;//坐标3
-        
     }else if (quadrant == 2){
         rectMinY = maxY + SK_ShapeSpace;
         rectMinX = centerX + SK_ShapeSpace - rectWide/2.;
@@ -247,7 +253,7 @@
         if (rectWide > (self.frame.size.width - CGRectGetMaxX(drawRect) - SK_ShapeSpace - 15)) {
             rectWide = self.frame.size.width - CGRectGetMaxX(drawRect) - SK_ShapeSpace - 15;
         }
-        rectHeight = [self textHeightWithViewWidth:rectWide andStr:text] + SK_TextSpace * 2;
+        rectHeight = [self textHeightWithViewWidth:rectWide andStr:text font:self.font] + SK_TextSpace * 2;
         rectMinY = CGRectGetMaxY(drawRect)  + SK_ShapeSpace;
         drawRect = CGRectMake(rectMinX, rectMinY, rectWide, rectHeight);
         
@@ -279,7 +285,7 @@
             rectWide = CGRectGetMinX(drawRect) - SK_ShapeSpace - 15;
         }
         rectMinX = CGRectGetMinX(drawRect) - rectWide -SK_ShapeSpace;
-        rectHeight = [self textHeightWithViewWidth:rectWide andStr:text] + SK_TextSpace * 2;
+        rectHeight = [self textHeightWithViewWidth:rectWide andStr:text font:self.font] + SK_TextSpace * 2;
         rectMinY = CGRectGetMaxY(drawRect)  + SK_ShapeSpace;
         drawRect = CGRectMake(rectMinX, rectMinY, rectWide, rectHeight);
         
@@ -308,7 +314,7 @@
             rectWide = CGRectGetMinX(drawRect) - SK_ShapeSpace - 15;
         }
         rectMinX = CGRectGetMinX(drawRect) - rectWide -SK_ShapeSpace;
-        rectHeight = [self textHeightWithViewWidth:rectWide andStr:text] + SK_TextSpace * 2;
+        rectHeight = [self textHeightWithViewWidth:rectWide andStr:text font:self.font] + SK_TextSpace * 2;
         rectMinY = CGRectGetMinY(drawRect) - rectHeight - SK_ShapeSpace;
         drawRect = CGRectMake(rectMinX, rectMinY, rectWide, rectHeight);
         
@@ -354,7 +360,6 @@
 
         //连接上面定义的坐标点
         //设置虚线排列的宽度间隔:下面的arr中的数字表示先绘制3个点再绘制1个点
-        CGFloat arr[] = {4, 6};
         //下面最后一个参数“2”代表排列的个数。
         CGContextSetLineDash(context, 1, arr, 2);
         
@@ -373,10 +378,39 @@
         [[UIColor whiteColor] set];
         CGContextFillPath(context);
         
+        //连接上面定义的坐标点
+        //设置虚线排列的宽度间隔:下面的arr中的数字表示先绘制3个点再绘制1个点
+        //下面最后一个参数“2”代表排列的个数。
+        CGContextSetLineDash(context, 1, arr, 2);
+        //画线
+        CGContextDrawPath(context, kCGPathStroke);
     }
     drawRect = CGRectMake(CGRectGetMinX(drawRect) + SK_TextSpace, CGRectGetMinY(drawRect) + SK_TextSpace, CGRectGetWidth(drawRect) - SK_TextSpace * 2, CGRectGetHeight(drawRect) - SK_TextSpace * 2);
     
     [text drawWithRect:drawRect options:NSStringDrawingUsesLineFragmentOrigin attributes:attribute context:nil];
+    
+    if (quadrant == 1) {
+      drawRect = CGRectMake(CGRectGetMaxX(drawRect) - 110, CGRectGetMinY(drawRect) - 42 - 10, 110, 42);
+    }else if(quadrant == 2){
+        drawRect = CGRectMake(CGRectGetMaxX(drawRect) - 110, CGRectGetMaxY(drawRect) + 10, 110, 42);
+    }else if(quadrant == 3){
+        drawRect = CGRectMake(CGRectGetMinX(drawRect), CGRectGetMaxY(drawRect) + 10, 110, 42);
+    }else{
+        drawRect = CGRectMake(CGRectGetMinX(drawRect), CGRectGetMinY(drawRect) - 42 - 10, 110, 42);
+    }
+    bezierPath = [UIBezierPath bezierPathWithRoundedRect:drawRect cornerRadius:4];
+    CGContextAddPath(context, bezierPath.CGPath);
+    //下面最后一个参数“2”代表排列的个数。
+    CGContextSetLineDash(context, 1, arr, 2);
+    CGContextDrawPath(context, kCGPathStroke);
+    
+    UIFont *font = [UIFont boldSystemFontOfSize:20];
+    [attribute setObject:font forKey:NSFontAttributeName];
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    [attribute setObject:paragraphStyle forKey:NSParagraphStyleAttributeName];
+    rectHeight = [self textHeightWithViewWidth:MAXFLOAT andStr:@"知道了" font:font];
+    drawRect = CGRectMake(CGRectGetMinX(drawRect) + 2, CGRectGetMinY(drawRect) + (CGRectGetHeight(drawRect) - rectHeight) / 2., CGRectGetWidth(drawRect), rectHeight);
+    [@"知道了" drawWithRect:drawRect options:NSStringDrawingUsesLineFragmentOrigin attributes:attribute context:nil];
 }
 
 //存在相对视图的第几象限绘制
@@ -434,19 +468,19 @@
 
 
 // 计算文字的高度 (宽度固定)
-- (CGFloat)textHeightWithViewWidth:(CGFloat)viewWidth andStr:(NSString *)str{
-    if (!self.font || str == nil) return 0;
+- (CGFloat)textHeightWithViewWidth:(CGFloat)viewWidth andStr:(NSString *)str font:(UIFont *)font{
+    if (!font || str == nil) return 0;
     
     CGSize size = CGSizeMake(viewWidth,MAXFLOAT);
     //计算实际frame大小，并将label的frame变成实际大小
     CGSize txtSize;
     if ([[[UIDevice currentDevice] systemVersion] compare:@"7.0"] != NSOrderedAscending) {
         NSStringDrawingOptions options =  NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading;
-        CGRect txtRT = [str boundingRectWithSize:size options:options attributes:@{NSFontAttributeName:self.font} context:nil];
+        CGRect txtRT = [str boundingRectWithSize:size options:options attributes:@{NSFontAttributeName:font} context:nil];
         txtSize = txtRT.size;
     } else {
         SK_WarnDeprecatedStart
-        txtSize = [str sizeWithFont:self.font constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+        txtSize = [str sizeWithFont:font constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
         SK_WarnDeprecatedEnd
     }
     return txtSize.height;
