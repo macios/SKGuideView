@@ -54,7 +54,7 @@
 
 -(void)guide{
     [SKGuideView share].font = [UIFont systemFontOfSize:14];
-//    [SKGuideView share].shapeType = SKGuideViewShapeTypeOval;
+    [SKGuideView share].shapeType = SKGuideViewShapeTypeOval;
     [SKGuideView share].shapeAlpha = 0.8;
     [SKGuideView share].dataArr = @[@[_view1,_view2,_view3,_view21,_view22,_view23,_view31,_view32,_view33,_view41,_view42,_view43,_btn1],
                                     @[@"点击这里查看余额",@"点击这里查看李时珍的西瓜皮",@"点击这里查看无敌爆炸西瓜皮使肌肤开始收费健康是福司法解释开发商发顺丰收费健康是福司法解释开发商发顺丰",@"点击这里查看余额",@"点击这里查看李时珍的西瓜皮",@"点击这里查看无敌爆炸西瓜皮使肌肤开始收费健康是福司法解释开发商发顺丰收费健康是福司法解释开发商发顺丰",@"点击这里查看余额",@"点击这里查看李时珍的皮",@"无敌爆炸西瓜皮使肌肤开始收费健康是福司法解释开发商发顺丰收费健康是福司法解释开发商发顺丰",@"点击这里查看余额",@"点击这里查看李时珍的皮",@"点击这里查看无敌爆炸西瓜皮使肌肤开始收费健康是福司法解释开发商发顺丰收费健康是福司法解释开发商发顺丰",@"点击这里查看无敌爆炸西瓜皮使肌肤开始收费健康是福司法解释开发商发顺丰收费健康是福司法解释开发商发顺丰皮使肌肤开始收费健康是福司法解释开发商发顺丰收费健康是福司法"]];

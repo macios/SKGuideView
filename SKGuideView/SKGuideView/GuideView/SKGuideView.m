@@ -388,29 +388,30 @@
     drawRect = CGRectMake(CGRectGetMinX(drawRect) + SK_TextSpace, CGRectGetMinY(drawRect) + SK_TextSpace, CGRectGetWidth(drawRect) - SK_TextSpace * 2, CGRectGetHeight(drawRect) - SK_TextSpace * 2);
     
     [text drawWithRect:drawRect options:NSStringDrawingUsesLineFragmentOrigin attributes:attribute context:nil];
-    
-    if (quadrant == 1) {
-      drawRect = CGRectMake(CGRectGetMaxX(drawRect) - 110, CGRectGetMinY(drawRect) - 42 - 10, 110, 42);
-    }else if(quadrant == 2){
-        drawRect = CGRectMake(CGRectGetMaxX(drawRect) - 110, CGRectGetMaxY(drawRect) + 10, 110, 42);
-    }else if(quadrant == 3){
-        drawRect = CGRectMake(CGRectGetMinX(drawRect), CGRectGetMaxY(drawRect) + 10, 110, 42);
-    }else{
-        drawRect = CGRectMake(CGRectGetMinX(drawRect), CGRectGetMinY(drawRect) - 42 - 10, 110, 42);
+    if (self.shapeType == SKGuideViewShapeTypeImaginary) {
+        if (quadrant == 1) {
+            drawRect = CGRectMake(CGRectGetMaxX(drawRect) - 110, CGRectGetMinY(drawRect) - 42 - 10, 110, 42);
+        }else if(quadrant == 2){
+            drawRect = CGRectMake(CGRectGetMaxX(drawRect) - 110, CGRectGetMaxY(drawRect) + 10, 110, 42);
+        }else if(quadrant == 3){
+            drawRect = CGRectMake(CGRectGetMinX(drawRect), CGRectGetMaxY(drawRect) + 10, 110, 42);
+        }else{
+            drawRect = CGRectMake(CGRectGetMinX(drawRect), CGRectGetMinY(drawRect) - 42 - 10, 110, 42);
+        }
+        bezierPath = [UIBezierPath bezierPathWithRoundedRect:drawRect cornerRadius:4];
+        CGContextAddPath(context, bezierPath.CGPath);
+        //下面最后一个参数“2”代表排列的个数。
+        CGContextSetLineDash(context, 1, arr, 2);
+        CGContextDrawPath(context, kCGPathStroke);
+        
+        UIFont *font = [UIFont boldSystemFontOfSize:20];
+        [attribute setObject:font forKey:NSFontAttributeName];
+        paragraphStyle.alignment = NSTextAlignmentCenter;
+        [attribute setObject:paragraphStyle forKey:NSParagraphStyleAttributeName];
+        rectHeight = [self textHeightWithViewWidth:MAXFLOAT andStr:@"知道了" font:font];
+        drawRect = CGRectMake(CGRectGetMinX(drawRect) + 2, CGRectGetMinY(drawRect) + (CGRectGetHeight(drawRect) - rectHeight) / 2., CGRectGetWidth(drawRect), rectHeight);
+        [@"知道了" drawWithRect:drawRect options:NSStringDrawingUsesLineFragmentOrigin attributes:attribute context:nil];
     }
-    bezierPath = [UIBezierPath bezierPathWithRoundedRect:drawRect cornerRadius:4];
-    CGContextAddPath(context, bezierPath.CGPath);
-    //下面最后一个参数“2”代表排列的个数。
-    CGContextSetLineDash(context, 1, arr, 2);
-    CGContextDrawPath(context, kCGPathStroke);
-    
-    UIFont *font = [UIFont boldSystemFontOfSize:20];
-    [attribute setObject:font forKey:NSFontAttributeName];
-    paragraphStyle.alignment = NSTextAlignmentCenter;
-    [attribute setObject:paragraphStyle forKey:NSParagraphStyleAttributeName];
-    rectHeight = [self textHeightWithViewWidth:MAXFLOAT andStr:@"知道了" font:font];
-    drawRect = CGRectMake(CGRectGetMinX(drawRect) + 2, CGRectGetMinY(drawRect) + (CGRectGetHeight(drawRect) - rectHeight) / 2., CGRectGetWidth(drawRect), rectHeight);
-    [@"知道了" drawWithRect:drawRect options:NSStringDrawingUsesLineFragmentOrigin attributes:attribute context:nil];
 }
 
 //存在相对视图的第几象限绘制
