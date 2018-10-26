@@ -33,7 +33,6 @@
 @implementation SKGuideView
 
 +(instancetype)share{
-    
     static SKGuideView *guideView;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -48,7 +47,6 @@
 -(void)defaultConfig{
     UIWindow *screenWindow = [UIApplication sharedApplication].keyWindow;
     self.frame = screenWindow.bounds;
-    [screenWindow addSubview:self];
     self.font = [UIFont systemFontOfSize:16];
     self.shapeAlpha = 0.7;
     self.shapeType = SKGuideViewShapeTypeImaginary;
@@ -78,7 +76,7 @@
 
 -(void)tapClick{
     if (_currentIndex == _viewArr.count) {
-        [self removeFromSuperview];
+        [self dismiss];
         return;
     }
     [self setNeedsDisplay];
@@ -109,6 +107,7 @@
     _viewArr = dataArr.firstObject;
     _textArr = dataArr.lastObject;
     _dataArr = dataArr;
+    [[UIApplication sharedApplication].keyWindow addSubview:self];
     [[UIApplication sharedApplication].keyWindow bringSubviewToFront:self];
     [self tapClick];
 }
